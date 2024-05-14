@@ -1,0 +1,48 @@
+---
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: test-pipeline 
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/tags: release
+spec:
+  description: >-
+    Test Pipeline 
+  params:
+    - name: tenantDogName
+      type: string
+    - name: arbitrary
+      default: some arbitrary value
+  workspaces:
+    - name: release-workspace
+  tasks:
+    - name: test-task
+      params:
+        - name: ARBITRARY
+          value: "$(params.arbitrary)"
+        - name: DOGNAME
+          value: "$(params.tenantDogName)"
+      taskSpec:
+        workspaces:
+          - name: data
+        params:
+          - name: ARBITRARY
+            value: $(params.ARBITRARY)
+          - name: DOGNAME 
+            value: $(params.DOGNAME)
+        steps:
+          - name: test 
+            image: quay.io/redhat-appstudio/release-service-utils:bc81bfed6062a386e48a76b252c6f33b52c411b0
+            script: |
+              #!/usr/bin/env sh
+              set -eu
+               
+              echo "=== TEST TASK ==="
+              echo "ARBITRARY: $(params.ARBITRARY)"
+              echo "DOGNAME: $(params.DOGNAME)"
+      workspaces:
+        - name: data
+          workspace: release-workspace
