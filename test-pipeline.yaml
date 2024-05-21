@@ -12,7 +12,7 @@ spec:
   description: >-
     Test Pipeline 
   params:
-    - name: tenantDogName
+    - name: dogName
       type: string
     - name: arbitrary
       default: some arbitrary value
@@ -24,7 +24,7 @@ spec:
         - name: ARBITRARY
           value: "$(params.arbitrary)"
         - name: DOGNAME
-          value: "$(params.tenantDogName)"
+          value: "$(params.dogName)"
       taskSpec:
         workspaces:
           - name: data
