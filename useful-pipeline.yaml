@@ -35,15 +35,11 @@ spec:
       taskSpec:
         workspaces:
           - name: data
-#        params:
-#          - name: RELEASED_VERSION
-#            value: $(params.RELEASED_VERSION)
-#          - name: GIT_REPO
-#            value: $(params.GIT_REPO)
-#          - name: GIT_COMMIT_ID
-#            value: $(params.GIT_COMMIT_ID)
-#          - name: SECRET_NAME
-#            value: $(params.SECRET_NAME)
+        params:
+          - name: RELEASED_VERSION
+          - name: GIT_REPO
+          - name: GIT_COMMIT_ID
+          - name: SECRET_NAME
         steps:
           - name: create-changelog
             image: quay.io/redhat-appstudio/release-service-utils:bc81bfed6062a386e48a76b252c6f33b52c411b0
